@@ -434,8 +434,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break*/
             case prefix+'menu':
             case prefix+'help':
-                const jumlahLimit = limit.getLimit(sender.id, _limit)
-                const jumlahLimitCount = limit.getLimitCount(sender.id, limitCount)
+                const jumlahUser = _registered.length
                 if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (args[0] === '1') {
                     if (isGroupMsg){
@@ -459,7 +458,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     if (!isOwner) return await client.reply(from, ind.ownerOnly(), id)
                     await client.sendText(from, ind.menuOwner())
                 } else {
-                    await client.sendText(from, ind.menu(jumlahLimit, jumlahLimitCount, pushname, isPremium ? 'YES' : 'NO'))
+                    await client.sendText(from, ind.menu(jumlahUser, pushname, isPremium ? 'YES' : 'NO'))
                 }
             break
             case prefix+'rules':
