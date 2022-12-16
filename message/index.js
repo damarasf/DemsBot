@@ -1388,7 +1388,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 const chats = await client.getAllChatIds()
                 for (let bcs of chats) {
                     let cvk = await client.getChatById(bcs)
-                    if (!cvk.isReadOnly) await client.sendText(bcs, `${q}\n\n- DemsBot (Kal)\n_Broadcasted message_`)
+                    if (!cvk.isReadOnly) await client.sendText(bcs, `${q}\n\n- DemsBot\n_Broadcasted message_`)
                 }
                 await client.reply(from, ind.doneOwner(), id)
             break
