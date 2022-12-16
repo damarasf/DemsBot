@@ -23,7 +23,7 @@ const { msgFilter, color, processTime, isUrl, createSerial } = require('../tools
 const { fun, misc, toxic } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { ind } = require('./text/lang/')
-const { daily, level, register, afk, reminder, premium, limit} = require('../function')
+const { daily, register, afk, reminder, premium, limit} = require('../function')
 const cd = 4.32e+7
 const limitCount = 30
 const errorImg = 'https://i.ibb.co/jRCpLfn/user.png'
@@ -43,14 +43,12 @@ const _openaig = JSON.parse(fs.readFileSync('./database/group/openai.json'))
 const _openaiu = JSON.parse(fs.readFileSync('./database/user/openai.json'))
 const _antilink = JSON.parse(fs.readFileSync('./database/group/antilink.json'))
 const _antinsfw = JSON.parse(fs.readFileSync('./database/group/antinsfw.json'))
-const _leveling = JSON.parse(fs.readFileSync('./database/group/leveling.json'))
 const _welcome = JSON.parse(fs.readFileSync('./database/group/welcome.json'))
 const _autosticker = JSON.parse(fs.readFileSync('./database/group/autosticker.json'))
 const _ban = JSON.parse(fs.readFileSync('./database/bot/banned.json'))
 const _premium = JSON.parse(fs.readFileSync('./database/bot/premium.json'))
 const _mute = JSON.parse(fs.readFileSync('./database/bot/mute.json'))
 const _registered = JSON.parse(fs.readFileSync('./database/bot/registered.json'))
-const _level = JSON.parse(fs.readFileSync('./database/user/level.json'))
 let _limit = JSON.parse(fs.readFileSync('./database/user/limit.json'))
 const _afk = JSON.parse(fs.readFileSync('./database/user/afk.json'))
 const _reminder = JSON.parse(fs.readFileSync('./database/user/reminder.json'))
@@ -105,7 +103,6 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         const isOpenAiOn = _openaiu.includes(sender.id)
         const isWelcomeOn = isGroupMsg ? _welcome.includes(groupId) : false
         const isDetectorOn = isGroupMsg ? _antilink.includes(groupId) : false
-        const isLevelingOn = isGroupMsg ? _leveling.includes(groupId) : false
         const isAutoStickerOn = isGroupMsg ? _autosticker.includes(groupId) : false
         const isAntiNsfw = isGroupMsg ? _antinsfw.includes(groupId) : false
         const isMute = isGroupMsg ? _mute.includes(chat.id) : false
@@ -691,16 +688,13 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     const benet = _ban.includes(getQuoted) ? 'Yes' : 'No'
                     const adm = groupAdmins.includes(getQuoted) ? 'Yes' : 'No'
                     const premi = premium.checkPremiumUser(getQuoted, _premium) ? 'Yes' : 'No'
-                    const levelMe = level.getLevelingLevel(getQuoted, _level)
-                    const xpMe = level.getLevelingXp(getQuoted, _level)
-                    const req = 5 * Math.pow(levelMe, 2) + 50 * 1 + 100
                     const { status } = statuses
                     if (profilePic === undefined) {
                         var pfp = errorImg
                     } else {
                         pfp = profilePic
                     }
-                    await client.sendFileFromUrl(from, pfp, `${username}.jpg`, ind.profile(username, status, premi, benet, adm, levelMe, req, xpMe), id)
+                    await client.sendFileFromUrl(from, pfp, `${username}.jpg`, ind.profile(username, status, premi, benet, adm), id)
                 } else {
                     const profilePic = await client.getProfilePicFromServer(sender.id)
                     const username = pushname
@@ -708,16 +702,13 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     const benet = isBanned ? 'Yes' : 'No'
                     const adm = isGroupAdmins ? 'Yes' : 'No'
                     const premi = isPremium ? 'Yes' : 'No'
-                    const levelMe = level.getLevelingLevel(sender.id, _level)
-                    const xpMe = level.getLevelingXp(sender.id, _level)
-                    const req = 5 * Math.pow(levelMe, 2) + 50 * 1 + 100
                     const { status } = statuses
                     if (profilePic === undefined) {
                         var pfps = errorImg
                     } else {
                         pfps = profilePic
                     }
-                    await client.sendFileFromUrl(from, pfps, `${username}.jpg`, ind.profile(username, status, premi, benet, adm, levelMe, req, xpMe), id)
+                    await client.sendFileFromUrl(from, pfps, `${username}.jpg`, ind.profile(username, status, premi, benet, adm), id)
                 }
             break
 
@@ -1277,27 +1268,6 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     _antilink.splice(groupId, 1)
                     fs.writeFileSync('./database/group/antilink.json', JSON.stringify(_antilink))
                     await client.reply(from, ind.detectorOff(), id)
-                } else {
-                    await client.reply(from, ind.wrongFormat(), id)
-                }
-            break
-            case prefix+'leveling':
-                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
-                if (!isGroupMsg) return await client.reply(from, ind.groupOnly(), id)
-                if (!isGroupAdmins) return await client.reply(from, ind.adminOnly(), id)
-                if (ar[0] === 'enable') {
-                    if (isLevelingOn) return await client.reply(from, ind.levelingOnAlready(), id)
-                    if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
-                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                    _leveling.push(groupId)
-                    fs.writeFileSync('./database/group/leveling.json', JSON.stringify(_leveling))
-                    await client.reply(from, ind.levelingOn(), id)
-                } else if (ar[0] === 'disable') {
-                    if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
-                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                    _leveling.splice(groupId, 1)
-                    fs.writeFileSync('./database/group/leveling.json', JSON.stringify(_leveling))
-                    await client.reply(from, ind.levelingOff(), id)
                 } else {
                     await client.reply(from, ind.wrongFormat(), id)
                 }
