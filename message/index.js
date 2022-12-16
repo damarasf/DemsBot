@@ -389,7 +389,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (!isRegistered) return await client.reply(from , ind.notRegistered(), id)
                 await client.reply(from, toxic(), id)
             break
-            case prefix+'reminder': // by Slavyan
+            case prefix+'reminder':
                 if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return await client.reply(from, ind.wrongFormat(), id)
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
@@ -437,7 +437,8 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break*/
             case prefix+'menu':
             case prefix+'help':
-                const jumlahUser = _registered.length
+                const jumlahLimit = limit.getLimit(sender.id, _limit)
+                const jumlahLimitCount = limit.getLimitCount(sender.id, limitCount)
                 if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (args[0] === '1') {
                     if (isGroupMsg){
@@ -461,7 +462,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     if (!isOwner) return await client.reply(from, ind.ownerOnly(), id)
                     await client.sendText(from, ind.menuOwner())
                 } else {
-                    await client.sendText(from, ind.menu(jumlahUser, pushname, isPremium ? 'YES' : 'NO'))
+                    await client.sendText(from, ind.menu(jumlahLimit, jumlahLimitCount, pushname, isPremium ? 'YES' : 'NO'))
                 }
             break
             case prefix+'rules':
@@ -1418,7 +1419,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 const chats = await client.getAllChatIds()
                 for (let bcs of chats) {
                     let cvk = await client.getChatById(bcs)
-                    if (!cvk.isReadOnly) await client.sendText(bcs, `${q}\n\n- Slavyan (Kal)\n_Broadcasted message_`)
+                    if (!cvk.isReadOnly) await client.sendText(bcs, `${q}\n\n- DemsBot (Kal)\n_Broadcasted message_`)
                 }
                 await client.reply(from, ind.doneOwner(), id)
             break

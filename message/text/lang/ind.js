@@ -383,16 +383,15 @@ exports.nameChanged = (q) => {
     return `Username berhasil diubah ke *${q}*`
 }
 
-exports.menu = (jumlahUser, pushname, premium) => {
+exports.menu = (jumlahLimit, jumlahLimitCount, pushname, premium) => {
     return `
 *── 「 MENU 」 ──*
 
 ======================
 ➸ *Nama*: ${pushname}
 ➸ *Premium*: ${premium}
+➸ *limit*: ${jumlahLimit} / ${jumlahLimitCount}
 ======================
-
-Total User: *${jumlahUser}*
 
 Berikut adalah menu yang tersedia:
 
