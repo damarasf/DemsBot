@@ -478,11 +478,12 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 }
                 await client.sendTextWithMentions(from, block)
             break
-            case prefix+'ownerbot':
+            case prefix+'owner':
                 if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
-                await client.sendContact(from, ownerNumber)
+                // send link instagram profile with button
+                await client.sendLinkWithAutoPreview(from, 'https://instagram.com/https://www.instagram.com/damara.sf/')
             break
-            case prefix+'runtime': // BY HAFIZH
+            case prefix+'runtime':
                 if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 const formater = (seconds) => {
                     const pad = (s) => {
@@ -636,7 +637,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break
             case prefix+'limit':
                 if (isPremium || isOwner) return await client.reply(from, '⤞ Limit left: ∞ (UNLIMITED)', id)
-                await client.reply(from, `⤞ Limit left: ${limit.getLimit(sender.id, _limit, limitCount)} / ${limitCount}\n\n*_Limit direset pada pukul 00:00 WIB_*\n_*Dengan menjadi premium kamu akan mendapatkan limit tanpa batas!_*`, id)
+                await client.reply(from, `⤞ Limit left: ${limit.getLimit(sender.id, _limit, limitCount)} / ${limitCount}\n\n*_Limit direset pada pukul 00:00 WIB_*\n\nDengan menjadi premium kamu akan mendapatkan limit tanpa batas!\nSilahkan ketik *${prefix}owner* untuk membeli premium!`, id)
             break
 
 

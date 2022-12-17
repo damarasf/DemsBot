@@ -22,7 +22,7 @@ exports.cmdNotFound = (cmd) => {
 }
 
 exports.blocked = (ownerNumber) => {
-    return `Bot tidak menerima panggilan. Karena kamu telah melanggar rules, maka kamu telah diblok!\n\nHarap hubungi owner: wa.me/${ownerNumber.replace('@c.us', '')}`
+    return `Bot tidak menerima panggilan. Karena kamu telah melanggar rules, maka kamu telah diblok!\n\nHarap hubungi owner: https://www.instagram.com/damara.sf/`
 }
 
 exports.ownerOnly = () => {
@@ -30,7 +30,7 @@ exports.ownerOnly = () => {
 }
 
 exports.doneOwner = () => {
-    return `Sudah selesai, Owner`
+    return `Sudah selesai, mas`
 }
 
 exports.groupOnly = () => {
@@ -78,7 +78,7 @@ Total user diblokir: *${blockNumber.length}*\n
 }
 
 exports.notPremium = () => {
-    return `Ups, kamu bukan user premium! Silakan hubungi owner untuk menjadi user premium.`
+    return `Ups, kamu bukan user premium! Silakan hubungi owner untuk menjadi user premium.\nSilahkan ketik *${prefix}owner* untuk chat owner.`
 }
 
 exports.notAdmin = () => {
@@ -383,7 +383,7 @@ exports.nameChanged = (q) => {
     return `Username berhasil diubah ke *${q}*`
 }
 
-exports.menu = (jumlahLimit, pushname, premium) => {
+exports.menu = (jumlahUser, pushname, premium) => {
     return `
 ╔══✪〘 *MENU* 〙✪══
 ╠═══════════════
@@ -399,7 +399,7 @@ exports.menu = (jumlahLimit, pushname, premium) => {
 ╠➸ *[6]* Moderation
 ╠➸ *[7]* Owner
 ╠
-╚═〘 *D E M S  B O T* 〙
+╚═〘 *Jumlah User: ${jumlahUser}* 〙
 
 Ketik *${prefix}menu* angka_index untuk membuka menu page yang dipilih.
 
@@ -767,6 +767,9 @@ Sanksi: *Blocked*
 
 3. Dilarang menggunakan bot untuk hal-hal yang merugikan.
 Sanksi: *Banned*
+
+4. Setiap pengguna memiliki limit dalam menggunakan fitur OpenAI.
+Catatan: Silahkan cek limit kamu dengan cara ketik *${prefix}limit*.
 
 Jika sudah membaca rules, silahkan ketik *${prefix}menu* atau *${prefix}help* untuk melihat menu.
     `
