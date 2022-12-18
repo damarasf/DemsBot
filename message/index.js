@@ -434,6 +434,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break*/
             case prefix+'menu':
             case prefix+'help':
+            case 'help':
                 const jumlahUser = _registered.length
                 if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (args[0] === '1') {
