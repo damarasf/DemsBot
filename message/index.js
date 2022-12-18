@@ -481,7 +481,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             case prefix+'owner':
                 if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 // send link instagram profile with button
-                await client.sendLinkWithAutoPreview(from, 'https://instagram.com/https://www.instagram.com/damara.sf/')
+                await client.sendLinkWithAutoPreview(from, 'https://www.instagram.com/damara.sf/')
             break
             case prefix+'runtime':
                 if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
