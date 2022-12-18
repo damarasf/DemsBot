@@ -501,7 +501,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             case prefix+'p':
             case 'test':
                 if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
-                await client.sendText(from, `Apaa!\nSpeed: ${processTime(t, moment())} secs`)
+                await client.sendText(from, `Halo, silahkan ketik ${prefix}menu\n\nSpeed: ${processTime(t, moment())} detik`)
             break
             case prefix+'delete':
             case prefix+'del':
