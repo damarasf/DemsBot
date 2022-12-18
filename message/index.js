@@ -78,7 +78,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
 
         const cmd = caption || body || ''
         const command = cmd.toLowerCase().split(' ')[0] || ''
-        const prefix = /^[°•π÷×¶∆£¢€¥®™✓=|~!#$%^&./\\©^]/.test(command) ? command.match(/^[°•π÷×¶∆£¢€¥®™✓=|~!#$%^&./\\©^]/gi) : '-'
+        const prefix = /^[°•π÷×¶∆£¢€¥®™✓=|~!#$%^&./\\©^]/.test(command) ? command.match(/^[°•π÷×¶∆£¢€¥®™✓=|~!#$%^&./\\©^]/gi) : '!'
         const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
         body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video' || type === 'buttons_response') && caption) && caption.startsWith(prefix)) ? caption : ''
         const args = body.trim().split(/ +/).slice(1)
