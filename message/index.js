@@ -959,12 +959,13 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 }
             break
             case prefix+'chat':
+                if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
+                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 if (isGroupMsg) {
                     if (!isOpenAiOnGroup) return await client.reply(from, ind.notOpenai(), id)
                     if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                     if (!q) return await client.reply(from, ind.emptyMess(), id)
-                    if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
-                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
                         
                     // send typing status openwa
                     await client.simulateTyping(from,true)
@@ -988,8 +989,6 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
                     if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                     if (!q) return await client.reply(from, ind.emptyMess(), id)
-                    if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
-                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
 
                     // send typing status openwa
                     await client.simulateTyping(from,true)
@@ -1011,15 +1010,15 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 }
             break
             case prefix+'chatimg':
+                if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
+                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 if (isGroupMsg) {
                     try {
                         if (!isOpenAiOnGroup) return await client.reply(from, ind.notOpenai(), id)
                         if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                         if (!q) return await client.reply(from, ind.emptyMess(), id)
-                        if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
-                        limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                        limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                        limit.addLimit(sender.id, _limit, isPremium, isOwner)
                         
                         // send typing status openwa
                         await client.reply(from, 'Tunggu sebentar kak, lagi bot gambarin nih hehe', id)
@@ -1044,8 +1043,6 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                         if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
                         if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                         if (!q) return await client.reply(from, ind.emptyMess(), id)
-                        if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
-                        limit.addLimit(sender.id, _limit, isPremium, isOwner)
                         
                         // send typing status openwa
                         await client.reply(from, 'Tunggu sebentar kak, lagi bot gambarin nih hehe', id)
