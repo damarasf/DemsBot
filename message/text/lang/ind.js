@@ -354,9 +354,12 @@ exports.limit = () => {
     return `
 *── 「 LIMIT 」 ──*
 
-Limit penggunaan kamu telah habis! Silakan lakukan hal berikut:
-❏ *_Tunggu hingga jam 00:00 WIB_*
-❏ *_Menjadi premium member, supaya unlimited limit_*
+Maaf, tetapi kamu telah mencapai limit menggunakan fitur ini. 
+Tetapi tenang, fitur lain masih bisa kamu gunakan.
+
+Silakan lakukan hal berikut:
+❏ *_Tunggu hingga jam 00:00 WIB supaya limit terisi kembali_*
+❏ *_Menjadi premium member, supaya unlimited limit. Ketik ${prefix}owner untuk membeli premium ^^_*
     `
 }
 
@@ -760,16 +763,22 @@ exports.rules = () => {
 *── 「 RULES 」 ──*
 
 1. Dilarang spam bot.
-Sanksi: *Banned*
+Sanksi: *Blocked*
 
 2. Dilarang menelfon bot.
 Sanksi: *Blocked*
 
 3. Dilarang menggunakan bot untuk hal-hal yang merugikan.
-Sanksi: *Banned*
+Sanksi: *Blocked*
 
 4. Setiap pengguna memiliki limit dalam menggunakan fitur OpenAI.
 Catatan: Silahkan cek limit kamu dengan cara ketik *${prefix}limit*.
+
+5. Bot ini dilengkapi dengan fitur anti-spam.
+Jika bot tidak merespon, silahkan tunggu beberapa saat.
+
+6. Bot ini dilengkapi dengan fitur anti-nsfw atau anti 18+.
+Jika kamu mengirimkan pesan yang mengandung kata-kata yang tidak pantas, maka bot tidak akan merespon.
 
 Jika sudah membaca rules, silahkan ketik *${prefix}menu* atau *${prefix}help* untuk melihat menu.
     `
