@@ -637,7 +637,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break
             case prefix+'limit':
                 if (isPremium || isOwner) return await client.reply(from, '⤞ Limit left: ∞ (UNLIMITED)', id)
-                await client.reply(from, `⤞ Limit left: ${limit.getLimit(sender.id, _limit, limitCount)} / ${limitCount}\n\n*Jika limit sudah habis, Silakan lakukan hal berikut: \n❏ *_Tunggu hingga jam 00:00 WIB supaya limit terisi kembali_* \n❏ *_Menjadi premium member, supaya unlimited limit. Ketik ${prefix}owner untuk membeli premium ^^_* `, id)
+                await client.reply(from, `⤞ Limit left: ${limit.getLimit(sender.id, _limit, limitCount)} / ${limitCount}\n\nJika limit sudah habis, Silakan lakukan hal berikut: \n❏ *_Tunggu hingga jam 00:00 WIB supaya limit terisi kembali_* \n❏ *_Menjadi premium member, supaya unlimited limit. Ketik ${prefix}owner untuk membeli premium ^^_* `, id)
             break
 
 
