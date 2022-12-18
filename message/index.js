@@ -590,7 +590,8 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 for (let i = 0; i < deret.length; i++) {
                     const checkExp = ms(premium.getPremiumExpired(deret[i], _premium) - Date.now())
                     arrayPremi.push(await client.getContact(premium.getAllPremiumUser(_premium)[i]))
-                    listPremi += `${i + 1}. wa.me/${premium.getAllPremiumUser(_premium)[i].replace('@c.us', '')}\n➸ *Name*: ${arrayPremi[i].pushname}\n➸ *Expired*: ${checkExp.days} day(s) ${checkExp.hours} hour(s) ${checkExp.minutes} minute(s)\n\n`
+                    listPremi += `${i + 1}. ➸ *Name*: ${arrayPremi[i].pushname}\n➸ *Expired*: ${checkExp.days} day(s) ${checkExp.hours} hour(s) ${checkExp.minutes} minute(s)\n\n`
+                    // listPremi += `${i + 1}. wa.me/${premium.getAllPremiumUser(_premium)[i].replace('@c.us', '')}\n➸ *Name*: ${arrayPremi[i].pushname}\n➸ *Expired*: ${checkExp.days} day(s) ${checkExp.hours} hour(s) ${checkExp.minutes} minute(s)\n\n`
                 }
                 await client.reply(from, listPremi, id)
             break
