@@ -78,7 +78,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
 
         const cmd = caption || body || ''
         const command = cmd.toLowerCase().split(' ')[0] || ''
-        const prefix = /^[°•π÷×¶∆£¢€¥®™✓=|~!#$%^&./\\©^]/.test(command) ? command.match(/^[°•π÷×¶∆£¢€¥®™✓=|~!#$%^&./\\©^]/gi) : '!'
+        const prefix = /^[°•π÷×¶∆£¢€¥®™✓=|~!#$%^&./\\©^]/.test(command) ? command.match(/^[°•π÷×¶∆£¢€¥®™✓=|~!#$%^&./\\©^]/gi) : '-'
         const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
         body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video' || type === 'buttons_response') && caption) && caption.startsWith(prefix)) ? caption : ''
         const args = body.trim().split(/ +/).slice(1)
@@ -434,7 +434,6 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break*/
             case prefix+'menu':
             case prefix+'help':
-            case 'help':
                 const jumlahUser = _registered.length
                 if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (args[0] === '1') {
@@ -502,7 +501,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             case prefix+'p':
             case 'test':
                 if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
-                await client.sendText(from, `Halo, silahkan ketik ${prefix}menu\n\nSpeed: ${processTime(t, moment())} detik`)
+                await client.sendText(from, `Halo, silahkan ketik *${prefix}menu*\n\nSpeed: ${processTime(t, moment())} detik`)
             break
             case prefix+'delete':
             case prefix+'del':
