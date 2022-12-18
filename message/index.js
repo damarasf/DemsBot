@@ -1018,6 +1018,8 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                         if (!q) return await client.reply(from, ind.emptyMess(), id)
                         if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
                         limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                        limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                        limit.addLimit(sender.id, _limit, isPremium, isOwner)
                         
                         // send typing status openwa
                         await client.reply(from, 'Tunggu sebentar kak, lagi bot gambarin nih hehe', id)
