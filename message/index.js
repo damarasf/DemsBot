@@ -255,34 +255,52 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         // Anti spam
         if (isCmd && !isPremium && !isOwner) msgFilter.addFilter(from)
 
+        if (isUrl(chats)) {
+            const classify = new URL(isUrl(chats))
+            console.log(color('[FILTER]', 'yellow'), 'Checking link:', classify.hostname)
+            isPorn(classify.hostname, async (err, status) => {
+                if (err) return console.error(err)
+                if (status) {
+                    console.log(color('[NSFW]', 'red'), color('The link is classified as NSFW!', 'yellow'))
+                    await client.reply(from, ind.linkNsfw(), id)
+                    await client.removeParticipant(groupId, sender.id)
+                } else {
+                    console.log(('[NEUTRAL]'), color('The link is safe!'))
+                }
+            })
+        }
+
         // openai chatbot user massage
-        if (!isGroupMsg && isOpenAiOn) {
-            try {                
-                if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
-                // if (!q) return await client.reply(from, ind.emptyMess(), id)
-                if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
-                limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                
-                // send typing status openwa
-                await client.simulateTyping(from,true)
-    
-                const response = await openai.createCompletion({
-                    model: "text-davinci-003",
-                    prompt: args,
-                    temperature: 0,
-                    max_tokens: 2048,
-                    top_p: 0.5,
-                    frequency_penalty: 0,
-                    presence_penalty: 0,
-                    // stop: ["4"],
-                    });
-    
-                let text = response.data.choices[0].text;
-                // send response
-                await client.reply(from, text, id)
-            } catch (err) {
-                await client.reply(from, `Maaf ${pushname}, bot tidak dapat menjawab pertanyaan anda. Silahkan tanyakan sesuatu yang lain.`, id)
+        if (!isGroupMsg ) {
+            if (isOpenAiOn(chats)) {
+                const args = chats.slice(1).trim().split(/ +/).join(" ")
+                try {                
+                    if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
+                    // if (!q) return await client.reply(from, ind.emptyMess(), id)
+                    if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
+                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                    
+                    // send typing status openwa
+                    await client.simulateTyping(from,true)
+        
+                    const response = await openai.createCompletion({
+                        model: "text-davinci-003",
+                        prompt: args,
+                        temperature: 0,
+                        max_tokens: 2048,
+                        top_p: 0.5,
+                        frequency_penalty: 0,
+                        presence_penalty: 0,
+                        // stop: ["4"],
+                        });
+        
+                    let text = response.data.choices[0].text;
+                    // send response
+                    await client.reply(from, text, id)
+                } catch (err) {
+                    await client.reply(from, `Maaf ${pushname}, bot tidak dapat menjawab pertanyaan anda. Silahkan tanyakan sesuatu yang lain.`, id)
+                }
             }
         }
 
@@ -1007,6 +1025,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     }
                 }
             break
+            case prefix+'chatimg':
             case prefix+'drawai':
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
                     limit.addLimit(sender.id, _limit, isPremium, isOwner)
