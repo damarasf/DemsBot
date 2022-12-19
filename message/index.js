@@ -81,6 +81,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
         body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video' || type === 'buttons_response') && caption) && caption.startsWith(prefix)) ? caption : ''
         const args = body.trim().split(/ +/).slice(1)
+        const args2 = chats.trim().split(/ +/).join(" ").slice(1)
         const uaOverride = config.uaOverride
         const q = args.join(' ')
         const ar = args.map((v) => v.toLowerCase())
@@ -270,10 +271,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         }
 
         // openai chatbot user massage
-        if (!isGroupMsg && isOpenAiOn) {
-            // const args = chats.slice(1).trim().split(/ +/).join(" ")
-            const args = chats.trim().split(/ +/).join(" ").slice(1)
-            // const args = body.trim().split(/ +/).slice(1)
+        if (isCmd && !isGroupMsg && command === 'chat') {
             try {                
                 if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
                 // if (!q) return await client.reply(from, ind.emptyMess(), id)
@@ -286,7 +284,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
     
                 const response = await openai.createCompletion({
                     model: "text-davinci-003",
-                    prompt: args,
+                    prompt: args2,
                     temperature: 0,
                     max_tokens: 2048,
                     top_p: 0.5,
