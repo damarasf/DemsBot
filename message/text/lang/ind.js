@@ -49,6 +49,10 @@ exports.openaiOn = () => {
     return `OpenAI berhasil diaktifkan!`
 }
 
+exports.openaiOnU = () => {
+    return `OpenAI berhasil diaktifkan! \n\nSilahkan langsung berbicara dengan bot ini. Ketikan apa saja yang ingin kamu tanyakan.`
+}
+
 exports.openaiOff = () => {
     return `OpenAI berhasil dimatikan!`
 }
