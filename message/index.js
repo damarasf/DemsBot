@@ -271,7 +271,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         }
 
         // openai chatbot user massage
-        if (isGroupMsg && isOpenAiOn) {
+        if (!isGroupMsg && isOpenAiOn) {
             try {                
                 if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
                 // if (!q) return await client.reply(from, ind.emptyMess(), id)
