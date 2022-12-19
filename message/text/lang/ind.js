@@ -705,9 +705,9 @@ Usage: *${prefix}openai enable*
 _Menonaktifkan fitur OpenAI_
 Usage: *${prefix}openai disable*
 
-3. *${prefix}drawai*
+3. *${prefix}chatimg* atau *${prefix}drawai*
 _Bot akan menggambarkan sesuatu, sesuai dengan yang kamu katakan_
-Usage: *${prefix}drawai* teks_kamu
+Usage: *${prefix}chatimg* teks_kamu atau *${prefix}drawai* teks_kamu
 
 4. *${prefix}openai reset*
 _Reset thread apabila pembicaraan sudah tidak nyambung_

@@ -82,6 +82,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
         body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video' || type === 'buttons_response') && caption) && caption.startsWith(prefix)) ? caption : ''
         const args = body.trim().split(/ +/).slice(1)
+        const args2 = chats.slice(1).trim().split(/ +/).join(" ")
         const uaOverride = config.uaOverride
         const q = args.join(' ')
         const ar = args.map((v) => v.toLowerCase())
@@ -272,7 +273,6 @@ module.exports = msgHandler = async (client = new Client(), message) => {
 
         // openai chatbot user massage
         if (!isGroupMsg && isOpenAiOn){
-            const args2 = chats.slice(1).trim().split(/ +/).join(" ")
             try {                
                 if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
                 // if (!q) return await client.reply(from, ind.emptyMess(), id)
@@ -470,7 +470,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                         if (!isOpenAiOnGroup) return await client.reply(from, ind.notOpenai(), id)
                         await client.sendText(from, ind.menuOpenai())
                     } else if (!isGroupMsg) {
-                        if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
+                        // if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
                         await client.sendText(from, ind.menuOpenaiU())
                     }
                 } else if (args[0] === '2') {
