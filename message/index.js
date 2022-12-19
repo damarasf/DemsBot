@@ -259,7 +259,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         if (!isGroupMsg && isOpenAiOn) {
             try {                
                 if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
-                // if (!q) return await client.reply(from, ind.emptyMess(), id)
+                if (!q) return await client.reply(from, ind.emptyMess(), id)
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
@@ -269,7 +269,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
     
                 const response = await openai.createCompletion({
                     model: "text-davinci-003",
-                    prompt: chats,
+                    prompt: message,
                     temperature: 0,
                     max_tokens: 2048,
                     top_p: 0.5,
