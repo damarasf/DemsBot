@@ -269,7 +269,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
     
                 const response = await openai.createCompletion({
                     model: "text-davinci-003",
-                    prompt: await openai.getChatbotPrompt(q),
+                    prompt: args,
                     temperature: 0,
                     max_tokens: 2048,
                     top_p: 0.5,
