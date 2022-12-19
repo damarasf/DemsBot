@@ -11,7 +11,6 @@ const config = require('../config.json')
 const ms = require('parse-ms')
 const toMs = require('ms')
 const mathjs = require('mathjs')
-const emojiUnicode = require('emoji-unicode')
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 const google = require('google-it')
@@ -100,7 +99,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         const isGroupAdmins = isGroupMsg ? groupAdmins.includes(sender.id) : false
         const isBotGroupAdmins = isGroupMsg ? groupAdmins.includes(botNumber) : false
         const isOpenAiOnGroup = isGroupMsg ? _openaig.includes(groupId) : false
-        const isOpenAiOn = _openaiu.includes(sender.id)
+        const isOpenAiOn = !isGroupMsg ? _openaiu.includes(sender.id) : false
         const isWelcomeOn = isGroupMsg ? _welcome.includes(groupId) : false
         const isDetectorOn = isGroupMsg ? _antilink.includes(groupId) : false
         const isAutoStickerOn = isGroupMsg ? _autosticker.includes(groupId) : false
@@ -271,8 +270,10 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         }
 
         // openai chatbot user massage
-        if (!isGroupMsg && isCmd && command === 'chat') {
-            const args2 = chats.slice(1).trim().split(/ +/).join(" ")
+        if (!isGroupMsg && isOpenAiOn) {
+            // const args = chats.slice(1).trim().split(/ +/).join(" ")
+            const args = chats.trim().split(/ +/).join(" ").slice(1)
+            // const args = body.trim().split(/ +/).slice(1)
             try {                
                 if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
                 // if (!q) return await client.reply(from, ind.emptyMess(), id)
@@ -285,7 +286,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
     
                 const response = await openai.createCompletion({
                     model: "text-davinci-003",
-                    prompt: args2,
+                    prompt: args,
                     temperature: 0,
                     max_tokens: 2048,
                     top_p: 0.5,
@@ -947,7 +948,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                         await client.reply(from, ind.openaiOff(), id)
                     } 
                     if (!isGroupMsg) {
-                        if (!isOpenAiOn) return await client.reply(from, ind.openaiOff(), id)
+                        if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
                         _openaiu.splice(sender.id, 1)
                         fs.writeFileSync('./database/user/openai.json', JSON.stringify(_openaiu))
                         await client.reply(from, ind.openaiOff(), id)
@@ -1006,6 +1007,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break
             case prefix+'chatimg':
             case prefix+'drawai':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
                     limit.addLimit(sender.id, _limit, isPremium, isOwner)
                     limit.addLimit(sender.id, _limit, isPremium, isOwner)
@@ -1013,7 +1015,6 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (isGroupMsg) {
                     try {
                         if (!isOpenAiOnGroup) return await client.reply(from, ind.notOpenai(), id)
-                        if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                         if (!q) return await client.reply(from, ind.emptyMess(), id)
                         
                         // send typing status openwa
@@ -1037,7 +1038,6 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (!isGroupMsg) {
                     try {
                         if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
-                        if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                         if (!q) return await client.reply(from, ind.emptyMess(), id)
                         
                         // send typing status openwa
