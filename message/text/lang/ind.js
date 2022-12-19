@@ -678,13 +678,44 @@ Usage: *${prefix}openai disable*
 _Berbicara dengan bot secara interaktif_
 Usage: *${prefix}chat* teks_kamu
 
-4. *${prefix}chatimg*
+4. *${prefix}chatimg* atau *${prefix}drawai*
 _Bot akan menggambarkan sesuatu, sesuai dengan yang kamu katakan_
-Usage: *${prefix}chatimg* teks_kamu
+Usage: *${prefix}chatimg* teks_kamu *${prefix}drawai* teks_kamu
 
 5. *${prefix}openai reset*
 _Reset thread apabila pembicaraan sudah tidak nyambung_
 Usage: *${prefix}openai reset*
+
+_Index of [1]_
+    `
+}
+
+exports.menuOpenaiU = () => {
+    return `
+*── 「 OpenAI 」 ──*
+
+Ini merupakan fitur OpenAI atau ChatGPT
+Pada fitur ini kamu bisa berbicara dengan bot secara interaktif
+
+1. *${prefix}openai enable*
+_Mengaktifkan fitur OpenAI_
+Usage: *${prefix}openai enable*
+
+2. *${prefix}openai disable*
+_Menonaktifkan fitur OpenAI_
+Usage: *${prefix}openai disable*
+
+3. *${prefix}drawai*
+_Bot akan menggambarkan sesuatu, sesuai dengan yang kamu katakan_
+Usage: *${prefix}drawai* teks_kamu
+
+4. *${prefix}openai reset*
+_Reset thread apabila pembicaraan sudah tidak nyambung_
+Usage: *${prefix}openai reset*
+
+Catatan : 
+- Setelah mengaktifkan fitur OpenAI, kamu bisa langsung bertanya ke bot seperti chat ke orang biasa.
+- Jika kamu ingin mengakhiri sesi chat, kamu bisa menggunakan perintah *${prefix}openai disable*.
 
 _Index of [1]_
     `

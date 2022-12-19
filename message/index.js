@@ -159,6 +159,8 @@ module.exports = msgHandler = async (client = new Client(), message) => {
            if (chats.length > 5000) {
                await client.sendTextWithMentions(from, `@${sender.id} is detected sending a virtext.\nYou will be kicked!`)
                await client.removeParticipant(groupId, sender.id)
+               await client.clearChat(groupId)
+               await client.deleteChat(groupId)
             }
         } 
                
@@ -253,27 +255,38 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         // Anti spam
         if (isCmd && !isPremium && !isOwner) msgFilter.addFilter(from)
 
-        switch (command) {
-            // Anti porn
-            case prefix+'antiporn':
-                if (!isGroupMsg) return await client.reply(from, ind.groupOnly(), id)
-                if (!isGroupAdmins) return await client.reply(from, ind.adminOnly(), id)
-                if (!isBotGroupAdmins) return await client.reply(from, ind.botNotAdmin(), id)
-                if (args.length !== 1) return await client.reply(from, ind.wrongFormat(), id)
-                if (args[0] === 'enable') {
-                    if (isAntiPorn) return await client.reply(from, ind.antiPornOnAlready(), id)
-                    _antiporn.push(groupId)
-                    fs.writeFileSync('./database/group/antiporn.json', JSON.stringify(_antiporn))
-                    await client.reply(from, ind.antiPornOn(), id)
-                } else if (args[0] === 'disable') {
-                    _antiporn.splice(groupId, 1)
-                    fs.writeFileSync('./database/group/antiporn.json', JSON.stringify(_antiporn))
-                    await client.reply(from, ind.antiPornOff(), id)
-                } else {
-                    await client.reply(from, ind.wrongFormat(), id)
-                }
-                break
+        // openai chatbot user massage
+        if (!isGroupMsg && isOpenAiOn) {
+            try {                
+                if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
+                if (!q) return await client.reply(from, ind.emptyMess(), id)
+                if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
+                limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                
+                // send typing status openwa
+                await client.simulateTyping(from,true)
+    
+                const response = await openai.createCompletion({
+                    model: "text-davinci-003",
+                    prompt: prompt,
+                    temperature: 0,
+                    max_tokens: 2048,
+                    top_p: 0.5,
+                    frequency_penalty: 0,
+                    presence_penalty: 0,
+                    // stop: ["4"],
+                    });
+    
+                let text = response.data.choices[0].text;
+                // send response
+                await client.reply(from, text, id)
+            } catch (err) {
+                await client.reply(from, `Maaf ${pushname}, bot tidak dapat menjawab pertanyaan anda. Silahkan tanyakan sesuatu yang lain.`, id)
+            }
+        }
 
+        switch (command) {
             // Register
             // case prefix+'register':
             //     if (isRegistered) return await client.reply(from, ind.registeredAlready(), id)
@@ -437,13 +450,13 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 const jumlahUser = _registered.length
                 if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (args[0] === '1') {
-                    // if (isGroupMsg){
-                    //     if (!isOpenAiOnGroup) return await client.reply(from, ind.notOpenai(), id)
-                    //     await client.sendText(from, ind.menuOpenai())
-                    // } else if (!isGroupMsg) {
-                    //     if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
+                    if (isGroupMsg){
+                        if (!isOpenAiOnGroup) return await client.reply(from, ind.notOpenai(), id)
                         await client.sendText(from, ind.menuOpenai())
-                    // }
+                    } else if (!isGroupMsg) {
+                        if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
+                        await client.sendText(from, ind.menuOpenaiU())
+                    }
                 } else if (args[0] === '2') {
                     await client.sendText(from, ind.menuBot())
                 } else if (args[0] === '3') {
@@ -915,46 +928,20 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 // if (!isGroupMsg) return await client.reply(from, ind.groupOnly(), id)
                 if (ar[0] === 'enable') {
+                    if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
+                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
                     if (isGroupMsg) {
                         if (isOpenAiOnGroup) return await client.reply(from, ind.openaiAlready(), id)
                         if (!isGroupAdmins) return await client.reply(from, ind.adminOnly(), id)
-                        if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
-                        limit.addLimit(sender.id, _limit, isPremium, isOwner)
                         _openaig.push(groupId)
                         fs.writeFileSync('./database/group/openai.json', JSON.stringify(_openaig))
                         await client.reply(from, ind.openaiOn(), id)
                     } 
                     if (!isGroupMsg) {
-                        
                         if (isOpenAiOn) return await client.reply(from, ind.openaiAlready(), id)
                         _openaiu.push(sender.id)
                         fs.writeFileSync('./database/user/openai.json', JSON.stringify(_openaiu))
                         await client.reply(from, ind.openaiOnU(), id)
-                        
-                        if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
-                        limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                        limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                        
-                        if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
-                        if (!q) return await client.reply(from, ind.emptyMess(), id)
-
-                        // send typing status openwa
-                        await client.simulateTyping(from,true)
-
-                        const response = await openai.createCompletion({
-                            model: "text-davinci-003",
-                            prompt: prompt,
-                            temperature: 0,
-                            max_tokens: 2048,
-                            top_p: 0.5,
-                            frequency_penalty: 0,
-                            presence_penalty: 0,
-                            // stop: ["4"],
-                            });
-
-                        let text = response.data.choices[0].text;
-                        // send response
-                        await client.reply(from, text, id)
                     }
                 } else if (ar[0] === 'disable') {
                     if (isGroupMsg) {
@@ -979,7 +966,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                         await client.deleteChat(groupId)
                     } 
                     if (!isGroupMsg) {
-                        // if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
+                        if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
                         await client.reply(from, ind.openaiReset(), id)
                         await client.clearChat(sender.id)
                         await client.deleteChat(sender.id)
@@ -989,13 +976,14 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 }
             break
             case prefix+'chat':
-                if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
-                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 if (isGroupMsg) {
+                    try {
                     if (!isOpenAiOnGroup) return await client.reply(from, ind.notOpenai(), id)
                     if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                     if (!q) return await client.reply(from, ind.emptyMess(), id)
+                    if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
+                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
                         
                     // send typing status openwa
                     await client.simulateTyping(from,true)
@@ -1014,9 +1002,12 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     let text = response.data.choices[0].text;
                     // send response
                     await client.reply(from, text, id)
-                } 
+                    } catch (err) {
+                        await client.reply(from, `Maaf ${pushname}, bot tidak dapat menjawab pertanyaan anda. Silahkan tanyakan sesuatu yang lain.`, id)
+                    }
+                }
             break
-            case prefix+'chatimg':
+            case prefix+'drawai':
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
                     limit.addLimit(sender.id, _limit, isPremium, isOwner)
                     limit.addLimit(sender.id, _limit, isPremium, isOwner)
@@ -1047,7 +1038,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 }
                 if (!isGroupMsg) {
                     try {
-                        // if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
+                        if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
                         if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                         if (!q) return await client.reply(from, ind.emptyMess(), id)
                         
