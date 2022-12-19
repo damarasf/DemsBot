@@ -273,7 +273,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         // openai chatbot user massage
         if (!isGroupMsg ) {
             if (isOpenAiOn(chats)) {
-                const args = chats.slice(1).trim().split(/ +/).join(" ")
+                const args2 = chats.slice(1).trim().split(/ +/).join(" ")
                 try {                
                     if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
                     // if (!q) return await client.reply(from, ind.emptyMess(), id)
@@ -286,7 +286,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         
                     const response = await openai.createCompletion({
                         model: "text-davinci-003",
-                        prompt: args,
+                        prompt: args2,
                         temperature: 0,
                         max_tokens: 2048,
                         top_p: 0.5,
