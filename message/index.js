@@ -82,7 +82,6 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
         body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video' || type === 'buttons_response') && caption) && caption.startsWith(prefix)) ? caption : ''
         const args = body.trim().split(/ +/).slice(1)
-        const args2 = chats.slice(1).trim().split(/ +/).join(" ")
         const uaOverride = config.uaOverride
         const q = args.join(' ')
         const ar = args.map((v) => v.toLowerCase())
@@ -272,8 +271,8 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         }
 
         // openai chatbot user massage
-        if (!isGroupMsg){
-            if (isOpenAiOn)
+        if (!isGroupMsg && isCmd && command === 'chat') {
+            const args2 = chats.slice(1).trim().split(/ +/).join(" ")
             try {                
                 if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
                 // if (!q) return await client.reply(from, ind.emptyMess(), id)
@@ -919,25 +918,6 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 } else {
                     await client.reply(from, ind.wrongFormat(), id)
                 }
-            break
-            case prefix+'emojisticker':
-            case prefix+'emojistiker':
-                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
-                if (args.length !== 1) return client.reply(from, ind.wrongFormat(), id)
-                if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
-                limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                const emoji = emojiUnicode(args[0])
-                await client.reply(from, ind.wait(), id)
-                console.log('Creating emoji code for =>', emoji)
-                await client.sendStickerfromUrl(from, `https://api.vhtear.com/emojitopng?code=${emoji}&apikey=${config.vhtear}`, null, { author: authorWm, pack: packWm })
-                    .then(async () => {
-                        await client.reply(from, ind.ok(), id)
-                        console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
-                    })
-                    .catch(async (err) => {
-                        console.error(err)
-                        await client.reply(from, 'Emoji not supported!', id)
-                    })
             break
 
             // Openai command

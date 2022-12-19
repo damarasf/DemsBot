@@ -551,19 +551,15 @@ Usage: *${prefix}ttg* teks
 _Konversi stiker ke foto._
 Usage: Reply sticker dengan caption *${prefix}stickertoimg*.
 
-7. *${prefix}emojisticker*
-_Konversi emoji ke stiker._
-Usage: *${prefix}emojisticker* emoji
-
-8. *${prefix}stickerwm*
+7. *${prefix}stickerwm*
 _Buat stiker dengan WM._
 Usage: Kirim gambar dengan caption *${prefix}stickerwm* pack_name | author_name atau reply gambar dengan caption *${prefix}stickerwm* pack_name | author_name.
 
-9. *${prefix}stickermeme*
+8. *${prefix}stickermeme*
 _Buat sticker meme._
 Usage: Kirim gambar dengan caption *${prefix}stickermeme* teks_atas | teks_bawah atau reply gambar dengan caption *${prefix}stickermeme* teks_atas | teks_bawah.
 
-10. *${prefix}takestick*
+9. *${prefix}takestick*
 _Merubah watermark sticker._
 Usage: Reply stiker dengan caption *${prefix}takestick* pack_name | author_name
 
