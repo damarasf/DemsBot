@@ -405,6 +405,7 @@ exports.menu = (jumlahUser, pushname, premium) => {
 ╚═〘 *Jumlah User: ${jumlahUser}* 〙
 
 Ketik *${prefix}menu* angka_index untuk membuka menu page yang dipilih.
+Contoh : *${prefix}menu 1*
 
 Catatan:
 Perlakukan bot secara baik, mohon baca *${prefix}rules* terlebih dahulu.

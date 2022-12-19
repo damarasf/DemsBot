@@ -443,7 +443,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     // } else if (!isGroupMsg) {
                     //     if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
                         await client.sendText(from, ind.menuOpenai())
-                    // }`
+                    // }
                 } else if (args[0] === '2') {
                     await client.sendText(from, ind.menuBot())
                 } else if (args[0] === '3') {
@@ -924,24 +924,24 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                         fs.writeFileSync('./database/group/openai.json', JSON.stringify(_openaig))
                         await client.reply(from, ind.openaiOn(), id)
                     } 
-                    // if (!isGroupMsg) {
-                    //     if (isOpenAiOn) return await client.reply(from, ind.openaiAlready(), id)
-                    //     _openaiu.push(sender.id)
-                    //     fs.writeFileSync('./database/user/openai.json', JSON.stringify(_openaiu))
-                    //     await client.reply(from, ind.openaiOn(), id)
-                    // }
+                    if (!isGroupMsg) {
+                        // if (isOpenAiOn) return await client.reply(from, ind.openaiAlready(), id)
+                        _openaiu.push(sender.id)
+                        fs.writeFileSync('./database/user/openai.json', JSON.stringify(_openaiu))
+                        await client.reply(from, ind.openaiOn(), id)
+                    }
                 } else if (ar[0] === 'disable') {
                     if (isGroupMsg) {
                         _openaig.splice(groupId, 1)
                         fs.writeFileSync('./database/group/openai.json', JSON.stringify(_openaig))
                         await client.reply(from, ind.openaiOff(), id)
                     } 
-                    // if (!isGroupMsg) {
-                    //     if (!isOpenAiOn) return await client.reply(from, ind.openaiOff(), id)
-                    //     _openaiu.splice(sender.id, 1)
-                    //     fs.writeFileSync('./database/user/openai.json', JSON.stringify(_openaiu))
-                    //     await client.reply(from, ind.openaiOff(), id)
-                    // }
+                    if (!isGroupMsg) {
+                        // if (!isOpenAiOn) return await client.reply(from, ind.openaiOff(), id)
+                        _openaiu.splice(sender.id, 1)
+                        fs.writeFileSync('./database/user/openai.json', JSON.stringify(_openaiu))
+                        await client.reply(from, ind.openaiOff(), id)
+                    }
                 } else if (ar[0] === 'reset') {
                     if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
                     limit.addLimit(sender.id, _limit, isPremium, isOwner)
@@ -952,12 +952,12 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                         await client.clearChat(groupId)
                         await client.deleteChat(groupId)
                     } 
-                    // if (!isGroupMsg) {
-                    //     if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
-                    //     await client.reply(from, ind.openaiReset(), id)
-                    //     await client.clearChat(sender.id)
-                    //     await client.deleteChat(sender.id)
-                    // }
+                    if (!isGroupMsg) {
+                        // if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
+                        await client.reply(from, ind.openaiReset(), id)
+                        await client.clearChat(sender.id)
+                        await client.deleteChat(sender.id)
+                    }
                 } else {
                     await client.reply(from, `Command ${prefix}openai salah!\n Silahkan ketik *${prefix}menu 1* untuk melihat menu openai!`, id)
                 }
