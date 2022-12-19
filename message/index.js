@@ -271,36 +271,34 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         }
 
         // openai chatbot user massage
-        if (!isGroupMsg ) {
-            if (isOpenAiOn(chats)) {
-                const args2 = chats.slice(1).trim().split(/ +/).join(" ")
-                try {                
-                    if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
-                    // if (!q) return await client.reply(from, ind.emptyMess(), id)
-                    if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
-                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
+        if (!isGroupMsg && isOpenAiOn){
+            const args2 = chats.slice(1).trim().split(/ +/).join(" ")
+            try {                
+                if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
+                // if (!q) return await client.reply(from, ind.emptyMess(), id)
+                if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
+                limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                limit.addLimit(sender.id, _limit, isPremium, isOwner)
                     
-                    // send typing status openwa
-                    await client.simulateTyping(from,true)
+                // send typing status openwa
+                await client.simulateTyping(from,true)
+    
+                const response = await openai.createCompletion({
+                    model: "text-davinci-003",
+                    prompt: args2,
+                    temperature: 0,
+                    max_tokens: 2048,
+                    top_p: 0.5,
+                    frequency_penalty: 0,
+                    presence_penalty: 0,
+                    // stop: ["4"],
+                    });
         
-                    const response = await openai.createCompletion({
-                        model: "text-davinci-003",
-                        prompt: args2,
-                        temperature: 0,
-                        max_tokens: 2048,
-                        top_p: 0.5,
-                        frequency_penalty: 0,
-                        presence_penalty: 0,
-                        // stop: ["4"],
-                        });
-        
-                    let text = response.data.choices[0].text;
-                    // send response
-                    await client.reply(from, text, id)
-                } catch (err) {
-                    await client.reply(from, `Maaf ${pushname}, bot tidak dapat menjawab pertanyaan anda. Silahkan tanyakan sesuatu yang lain.`, id)
-                }
+                let text = response.data.choices[0].text;
+                // send response
+                await client.reply(from, text, id)
+            } catch (err) {
+                await client.reply(from, `Maaf ${pushname}, bot tidak dapat menjawab pertanyaan anda. Silahkan tanyakan sesuatu yang lain.`, id)
             }
         }
 
