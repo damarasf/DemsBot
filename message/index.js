@@ -272,11 +272,11 @@ module.exports = msgHandler = async (client = new Client(), message) => {
 
         // openai chatbot user massage
         if (!isGroupMsg && isOpenAiOn) {
-            if (args2 == '!openai disable' || args2 == '#openai disable') 
-                if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
-                    _openaiu.splice(sender.id, 1)
-                    fs.writeFileSync('./database/user/openai.json', JSON.stringify(_openaiu))
-                    await client.reply(from, ind.openaiOff(), id)
+            // if (args2 == '!openai disable' || args2 == '#openai disable') 
+            //     if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
+            //         _openaiu.splice(sender.id, 1)
+            //         fs.writeFileSync('./database/user/openai.json', JSON.stringify(_openaiu))
+            //         await client.reply(from, ind.openaiOff(), id)
             try {                
                 if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
                 // if (!q) return await client.reply(from, ind.emptyMess(), id)
