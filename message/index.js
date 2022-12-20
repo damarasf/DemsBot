@@ -925,9 +925,9 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             case prefix+'openai':
                 if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 // if (!isGroupMsg) return await client.reply(from, ind.groupOnly(), id)
+                if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
+                limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 if (ar[0] === 'enable') {
-                    if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
-                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
                     if (isGroupMsg) {
                         if (isOpenAiOnGroup) return await client.reply(from, ind.openaiAlready(), id)
                         if (!isGroupAdmins) return await client.reply(from, ind.adminOnly(), id)
@@ -949,6 +949,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     } 
                     if (!isGroupMsg) {
                         if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
+                        isOpenAiOn = false
                         _openaiu.splice(sender.id, 1)
                         fs.writeFileSync('./database/user/openai.json', JSON.stringify(_openaiu))
                         await client.reply(from, ind.openaiOff(), id)
