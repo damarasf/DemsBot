@@ -272,7 +272,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
 
         // openai chatbot user massage
         if (!isGroupMsg && isOpenAiOn) {
-            if (args2 == '!openai disable' || args2 == '#openai disable') 
+            if (args2 == `${prefix}openai disable`) 
                 if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
                     _openaiu.splice(sender.id, 1)
                     fs.writeFileSync('./database/user/openai.json', JSON.stringify(_openaiu))
@@ -953,12 +953,12 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                         fs.writeFileSync('./database/group/openai.json', JSON.stringify(_openaig))
                         await client.reply(from, ind.openaiOff(), id)
                     } 
-                    if (!isGroupMsg) {
-                        if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
-                        _openaiu.splice(sender.id, 1)
-                        fs.writeFileSync('./database/user/openai.json', JSON.stringify(_openaiu))
-                        await client.reply(from, ind.openaiOff(), id)
-                    }
+                    // if (!isGroupMsg) {
+                    //     if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
+                    //     _openaiu.splice(sender.id, 1)
+                    //     fs.writeFileSync('./database/user/openai.json', JSON.stringify(_openaiu))
+                    //     await client.reply(from, ind.openaiOff(), id)
+                    // }
                 } else if (ar[0] === 'reset') {
                     if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
                     limit.addLimit(sender.id, _limit, isPremium, isOwner)
