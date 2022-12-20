@@ -955,7 +955,6 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     } 
                     if (!isGroupMsg) {
                         if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
-                        isOpenAiOn = false
                         _openaiu.splice(sender.id, 1)
                         fs.writeFileSync('./database/user/openai.json', JSON.stringify(_openaiu))
                         await client.reply(from, ind.openaiOff(), id)
