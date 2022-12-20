@@ -277,7 +277,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     _openaiu.splice(sender.id, 1)
                     fs.writeFileSync('./database/user/openai.json', JSON.stringify(_openaiu))
                     await client.reply(from, ind.openaiOff(), id)
-            } else {
+            } else if (args2 == '') {
             try {                
                 if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
                 // if (!q) return await client.reply(from, ind.emptyMess(), id)
