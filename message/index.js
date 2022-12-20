@@ -270,6 +270,38 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             })
         }
 
+        // openai chatbot user massage
+        if (!isGroupMsg && isOpenAiOn) {
+            try {                
+                if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
+                // if (!q) return await client.reply(from, ind.emptyMess(), id)
+                if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
+                limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                        
+                // send typing status openwa
+                await client.simulateTyping(from,true)
+    
+                const response = await openai.createCompletion({
+                    model: "text-davinci-003",
+                    prompt: args2,
+                    temperature: 0,
+                    max_tokens: 2048,
+                    top_p: 0.5,
+                    frequency_penalty: 0,
+                    presence_penalty: 0,
+                    // stop: ["4"],
+                    });
+                    
+                    let text = response.data.choices[0].text;
+                    // send response
+                    await client.reply(from, text, id)
+                    console.log(`OpenAI processed for ${processTime(t, moment())} seconds`)
+                } catch (err) {
+                    await client.reply(from, `Maaf ${pushname}, bot tidak dapat menjawab pertanyaan anda. Silahkan tanyakan sesuatu yang lain.`, id)
+                }
+            }
+
 
         switch (command) {
             // Register
@@ -436,7 +468,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (args[0] === '1') {
                     if (isGroupMsg){
-                        if (!isOpenAiOnGroup) return await client.reply(from, ind.notOpenai(), id)
+                        // if (!isOpenAiOnGroup) return await client.reply(from, ind.notOpenai(), id)
                         await client.sendText(from, ind.menuOpenai())
                     } else if (!isGroupMsg) {
                         // if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
@@ -1006,7 +1038,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 }
                 if (!isGroupMsg) {
                     try {
-                        if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
+                        // if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
                         if (!q) return await client.reply(from, ind.emptyMess(), id)
                         
                         // send typing status openwa
@@ -1512,42 +1544,9 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     await client.reply(from, ind.cmdNotFound(command), id)
                 }
             break
-        }
-
-            // openai chatbot user massage
-            if (!isGroupMsg && isOpenAiOn) {
-                try {                
-                    if (!isOpenAiOn) return await client.reply(from, ind.notOpenai(), id)
-                    // if (!q) return await client.reply(from, ind.emptyMess(), id)
-                    if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await client.reply(from, ind.limit(), id)
-                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                            
-                    // send typing status openwa
-                    await client.simulateTyping(from,true)
-        
-                    const response = await openai.createCompletion({
-                        model: "text-davinci-003",
-                        prompt: args2,
-                        temperature: 0,
-                        max_tokens: 2048,
-                        top_p: 0.5,
-                        frequency_penalty: 0,
-                        presence_penalty: 0,
-                        // stop: ["4"],
-                        });
-                        
-                        let text = response.data.choices[0].text;
-                        // send response
-                        await client.reply(from, text, id)
-                        console.log(`OpenAI processed for ${processTime(t, moment())} seconds`)
-                    } catch (err) {
-                        await client.reply(from, `Maaf ${pushname}, bot tidak dapat menjawab pertanyaan anda. Silahkan tanyakan sesuatu yang lain.`, id)
-                    }
-                }
-            
-            } catch (err) {
-                console.error(color('[ERROR]', 'red'), err)
-        }
+        } 
+    } catch (err) {
+        console.error(color('[ERROR]', 'red'), err)
+    }
 }
 /********** END OF MESSAGE HANDLER **********/
