@@ -239,8 +239,11 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         if (isCmd && (isBanned || isBlocked) && isGroupMsg) return console.log(color('[BAN]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
 
         // Anti spam
-        if (isCmd && msgFilter.isFiltered(from) && !isGroupMsg) return console.log(color('[SPAM]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
-        if (isCmd && msgFilter.isFiltered(from) && isGroupMsg) return console.log(color('[SPAM]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
+        // if (isCmd && msgFilter.isFiltered(from) && !isGroupMsg) return console.log(color('[SPAM]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
+        // if (isCmd && msgFilter.isFiltered(from) && isGroupMsg) return console.log(color('[SPAM]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
+
+        // Anti spam
+        // if (isCmd && !isPremium && !isOwner) msgFilter.addFilter(from)
 
         // Log
         if (isCmd && !isGroupMsg) {
@@ -252,9 +255,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             await client.sendSeen(from)
         }
         
-        // Anti spam
-        if (isCmd && !isPremium && !isOwner) msgFilter.addFilter(from)
-
+        
         if (isUrl(chats)) {
             const classify = new URL(isUrl(chats))
             console.log(color('[FILTER]', 'yellow'), 'Checking link:', classify.hostname)
@@ -912,6 +913,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     }
                 } else if (ar[0] === 'disable') {
                     if (isGroupMsg) {
+                        if (!isOpenAiOnGroup) return await client.reply(from, ind.notOpenai(), id)
                         _openaig.splice(groupId, 1)
                         fs.writeFileSync('./database/group/openai.json', JSON.stringify(_openaig))
                         await client.reply(from, ind.openaiOff(), id)
