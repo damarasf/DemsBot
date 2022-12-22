@@ -662,6 +662,15 @@ exports.menuOpenai = () => {
 Ini merupakan fitur OpenAI atau ChatGPT
 Pada fitur ini kamu bisa berbicara dengan bot secara interaktif
 
+Cara penggunaan:
+- *${prefix}openai enable*
+- *${prefix}chat* teks_kamu
+Jika ingin menggambar:
+- *${prefix}openai enable*
+- *${prefix}chatimg* teks_kamu
+
+*Berikut adalah beberapa fitur yang tersedia:*
+
 1. *${prefix}openai enable*
 _Mengaktifkan fitur OpenAI_
 Usage: *${prefix}openai enable*
