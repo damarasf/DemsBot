@@ -971,7 +971,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                         let text = response.data.choices[0].text;
                         // send response
                         await client.reply(from, text, id)
-                        console.log(`Response for ${processTime(t, moment())} seconds.`)
+                        console.log(`OpenAI processed for ${processTime(t, moment())} seconds`)
                     } catch (err) {
                         await client.reply(from, `Maaf ${pushname}, bot tidak dapat menjawab pertanyaan anda. Silahkan tanyakan sesuatu yang lain.`, id)
                     }
