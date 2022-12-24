@@ -169,7 +169,7 @@ const start = (client = new Client()) => {
     client.onAddedToGroup(async (chat) => {
         const totalMem = chat.groupMetadata.participants.length
         if (totalMem >= 60) {
-            await client.sendText(chat.id, ind.groupLimit(totalMem))
+            await client.sendText(chat.id, `Max groups reached!\n\nCurrent status: ${gc.length}/${groupLimit}`)
             await client.leaveGroup(chat.id)
             await client.deleteChat(chat.id)
         } else {
