@@ -804,7 +804,7 @@ _Reset semua database pengguna OpenAI_
 Usage: *${prefix}resetopenai*
 
 
-_Index of [9]_
+_Index of [7]_
     `
 }
 

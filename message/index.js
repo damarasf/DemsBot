@@ -135,9 +135,10 @@ module.exports = msgHandler = async (client = new Client(), message) => {
 
         // cron setiap jam 1 pagi untuk reset openaig dan openaiu
         cron.schedule('0 1 * * *', () => {
-            const reset = []
-            _openaig = reset
-            _openaiu = reset
+            const reset2 = []
+            _openaig = reset2
+            const reset3 = []
+            _openaiu = reset3
             console.log('Hang tight, it\'s time to reset openai...')
             fs.writeFileSync('./database/group/openaig.json', JSON.stringify(_openaig))
             fs.writeFileSync('./database/user/openaiu.json', JSON.stringify(_openaiu))
@@ -1569,7 +1570,8 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (!isOwner) return await client.reply(from, ind.ownerOnly(), id)
                 const reset2 = []
                 _openaig = reset2
-                _openaiu = reset2
+                const reset3 = []
+                _openaiu = reset3
                 console.log('Hang tight, it\'s time to reset openai engine...')
                 fs.writeFileSync('./database/user/openaig.json', JSON.stringify(_openaig))
                 fs.writeFileSync('./database/user/openaiu.json', JSON.stringify(_openaiu))
