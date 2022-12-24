@@ -18,7 +18,7 @@ const cron = require('node-cron')
 /********** END OF MODULES **********/
 
 /********** UTILS **********/
-const { msgFilter, color, processTime, isUrl, createSerial, spam } = require('../tools')
+const { msgFilter, color, processTime, isUrl, createSerial } = require('../tools')
 const { fun, misc, toxic } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { ind } = require('./text/lang/')

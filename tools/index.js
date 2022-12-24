@@ -110,9 +110,6 @@ module.exports = {
         isFiltered,
         addFilter
     },
-    spam: {
-        detectSpam
-    },
     color,
     isUrl,
     processTime,
