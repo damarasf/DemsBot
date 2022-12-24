@@ -799,6 +799,9 @@ Usage: *${prefix}blocklist*
 _Reset limit semua user_
 Usage: *${prefix}resetlimit*
 
+17. *${prefix}resetopenai*
+_Reset semua database pengguna OpenAI_
+Usage: *${prefix}resetopenai*
 
 
 _Index of [9]_

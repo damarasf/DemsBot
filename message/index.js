@@ -1565,7 +1565,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 await client.reply(from, ind.doneOwner(), id)
                 console.log('Success!')
             break
-            case prefix+'resetopeai':
+            case prefix+'resetopenai':
                 if (!isOwner) return await client.reply(from, ind.ownerOnly(), id)
                 const reset2 = []
                 _openaig = reset2
