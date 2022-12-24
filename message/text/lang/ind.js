@@ -795,6 +795,12 @@ Usage: *${prefix}unblock* @user/62812xxxxxxxx
 _Melihat daftar user yang diblokir._
 Usage: *${prefix}blocklist*
 
+16. *${prefix}resetlimit*
+_Reset limit semua user_
+Usage: *${prefix}resetlimit*
+
+
+
 _Index of [9]_
     `
 }
