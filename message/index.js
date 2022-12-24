@@ -246,7 +246,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         // if (isCmd && !isPremium && !isOwner) msgFilter.addFilter(from)
 
         // anti spam berdasarkan sender.id
-        if (isCmd && !isPremium && !isOwner) {
+        if (isCmd) {
             const isSpam = spam.detectSpam(sender.id)
             if (isSpam) {
                 console.log(color('[SPAM]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
