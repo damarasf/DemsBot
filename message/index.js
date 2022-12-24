@@ -134,19 +134,19 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         })
 
         // cron setiap jam 1 pagi untuk reset openaig dan openaiu
-        cron.schedule('0 1 * * *', () => {
-            const reset2 = []
-            _openaig = reset2
-            const reset3 = []
-            _openaiu = reset3
-            console.log('Hang tight, it\'s time to reset openai...')
-            fs.writeFileSync('./database/group/openaig.json', JSON.stringify(_openaig))
-            fs.writeFileSync('./database/user/openaiu.json', JSON.stringify(_openaiu))
-            console.log('Success!')
-        }, {
-            scheduled: true,
-            timezone: 'Asia/Jakarta'
-        })
+        // cron.schedule('0 1 * * *', () => {
+        //     const reset2 = []
+        //     _openaig = reset2
+        //     const reset3 = []
+        //     _openaiu = reset3
+        //     console.log('Hang tight, it\'s time to reset openai...')
+        //     fs.writeFileSync('./database/group/openaig.json', JSON.stringify(_openaig))
+        //     fs.writeFileSync('./database/user/openaiu.json', JSON.stringify(_openaiu))
+        //     console.log('Success!')
+        // }, {
+        //     scheduled: true,
+        //     timezone: 'Asia/Jakarta'
+        // })
 
         // Anti group link detector
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner) {
@@ -1566,18 +1566,18 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 await client.reply(from, ind.doneOwner(), id)
                 console.log('Success!')
             break
-            case prefix+'resetopenai':
-                if (!isOwner) return await client.reply(from, ind.ownerOnly(), id)
-                const reset2 = []
-                _openaig = reset2
-                const reset3 = []
-                _openaiu = reset3
-                console.log('Hang tight, it\'s time to reset openai engine...')
-                fs.writeFileSync('./database/user/openaig.json', JSON.stringify(_openaig))
-                fs.writeFileSync('./database/user/openaiu.json', JSON.stringify(_openaiu))
-                await client.reply(from, ind.doneOwner(), id)
-                console.log('Success!')
-            break
+            // case prefix+'resetopenai':
+            //     if (!isOwner) return await client.reply(from, ind.ownerOnly(), id)
+            //     const reset2 = []
+            //     _openaig = reset2
+            //     const reset3 = []
+            //     _openaiu = reset3
+            //     console.log('Hang tight, it\'s time to reset openai engine...')
+            //     fs.writeFileSync('./database/user/openaig.json', JSON.stringify(_openaig))
+            //     fs.writeFileSync('./database/user/openaiu.json', JSON.stringify(_openaiu))
+            //     await client.reply(from, ind.doneOwner(), id)
+            //     console.log('Success!')
+            // break
             
             default:
                 if (isCmd) {
