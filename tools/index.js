@@ -102,18 +102,7 @@ const addFilter = (from) => {
     usedCommandRecently.add(from)
     setTimeout(() => {
         return usedCommandRecently.delete(from)
-    }, 5000)
-}
-
-const detectSpam = (from) => {
-    return new Promise(async (resolve) => {
-        if (isFiltered(from)) {
-            addFilter(from)
-            resolve(true)
-        } else {
-            resolve(false)
-        }
-    })
+    }, 2000) // 2 seconds delay
 }
 
 module.exports = {
