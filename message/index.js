@@ -503,7 +503,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 await client.sendText(from, `Halo, silahkan ketik *#menu*\n\nSpeed: ${processTime(t, moment())} detik`)
             break
-            case 'p' || 'halo' || 'hai' || 'hi' || 'bot' || 'test':
+            case 'p' || 'halo' || 'hai' || 'hi' || 'bot':
                 if (!isGroupMsg) {
                     if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                     await client.sendText(from, `Halo, silahkan ketik *#menu*\n\nSpeed: ${processTime(t, moment())} detik`)
