@@ -14,6 +14,7 @@ const express = require('express')
 const app = express()
 const cron = require('node-cron')
 const exec = require('await-exec')
+// const exec = require('child_process').exec
 
 const start = (client = new Client()) => {
     console.log(color(figlet.textSync('Dems Bot', 'Standard'), 'cyan'))
@@ -64,7 +65,7 @@ const start = (client = new Client()) => {
     client.onMessage((message) => {
         // Uncomment code di bawah untuk mengaktifkan auto-delete cache pesan.
         // Uncomment code below to activate auto-delete message cache.
-        /*
+        
         client.getAmountOfLoadedMessages()
             .then((msg) => {
                 if (msg >= 1000) {
@@ -73,7 +74,7 @@ const start = (client = new Client()) => {
                     console.log(color('[client]'), color('Cache deleted!', 'yellow'))
                 }
             })
-        */
+        
         
         // Comment code msgHandler di bawah untuk mengaktifkan auto-update. Kemudian, uncomment code require di bawah msgHandler.
         // Comment code below to activate auto-update. Then, uncomment require code below msgHandler.
@@ -163,6 +164,24 @@ const start = (client = new Client()) => {
             console.error(err)
         }
     })
+
+    // jika bot diinvite ke dalam group yang berisi anggota lebih dari 60 orang maka bot akan keluar dari group tersebut
+    client.onAddedToGroup(async (chat) => {
+        const totalMem = chat.groupMetadata.participants.length
+        if (totalMem >= 60) {
+            await client.sendText(chat.id, ind.groupLimit(totalMem))
+            await client.leaveGroup(chat.id)
+            await client.deleteChat(chat.id)
+        } else {
+            await client.sendText(chat.id, ind.addedGroup(chat.contact.name))
+        }
+    })
+
+    // bot akan restart ketika sudah 5 jam berjalan (untuk menghindari memory leak) dengan cron job
+    cron.schedule('0 0 */5 * * *', () => {
+        client.forceRefocus()
+    })
+
 }
 
 create(options(start))

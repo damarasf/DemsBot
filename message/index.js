@@ -18,7 +18,7 @@ const cron = require('node-cron')
 /********** END OF MODULES **********/
 
 /********** UTILS **********/
-const { msgFilter, color, processTime, isUrl, createSerial } = require('../tools')
+const { msgFilter, color, processTime, isUrl, createSerial, spam } = require('../tools')
 const { fun, misc, toxic } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { ind } = require('./text/lang/')
@@ -244,6 +244,15 @@ module.exports = msgHandler = async (client = new Client(), message) => {
 
         // Anti spam
         // if (isCmd && !isPremium && !isOwner) msgFilter.addFilter(from)
+
+        // anti spam berdasarkan sender.id
+        if (isCmd && !isPremium && !isOwner) {
+            const isSpam = spam.detectSpam(sender.id)
+            if (isSpam) {
+                console.log(color('[SPAM]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
+                return
+            }
+        }
 
         // Log
         if (isCmd && !isGroupMsg) {
@@ -502,6 +511,12 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             case 'test':
                 if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 await client.sendText(from, `Halo, silahkan ketik *#menu*\n\nSpeed: ${processTime(t, moment())} detik`)
+            break
+            case 'p':
+                if (!isGroupMsg) {
+                    if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
+                    await client.sendText(from, `Halo, silahkan ketik *#menu*\n\nSpeed: ${processTime(t, moment())} detik`)
+                }
             break
             case prefix+'delete':
             case prefix+'del':

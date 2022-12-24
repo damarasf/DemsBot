@@ -46,11 +46,11 @@ exports.notOpenai = () => {
 }
 
 exports.openaiOn = () => {
-    return `OpenAI berhasil diaktifkan!`
+    return `OpenAI berhasil diaktifkan!\n\nSilahkan ketik *${prefix}chat teks_kamu* untuk memulai obrolan dengan OpenAI!`
 }
 
 exports.openaiOnU = () => {
-    return `OpenAI berhasil diaktifkan! \n\nSilahkan langsung berbicara dengan bot ini. Ketikan apa saja yang ingin kamu tanyakan.`
+    return `OpenAI berhasil diaktifkan!\n\nSilahkan ketik *${prefix}chat teks_kamu* untuk memulai obrolan dengan OpenAI!`
 }
 
 exports.openaiOff = () => {

@@ -105,10 +105,24 @@ const addFilter = (from) => {
     }, 5000)
 }
 
+const detectSpam = (from) => {
+    return new Promise(async (resolve) => {
+        if (isFiltered(from)) {
+            addFilter(from)
+            resolve(true)
+        } else {
+            resolve(false)
+        }
+    })
+}
+
 module.exports = {
     msgFilter: {
         isFiltered,
         addFilter
+    },
+    spam: {
+        detectSpam
     },
     color,
     isUrl,
