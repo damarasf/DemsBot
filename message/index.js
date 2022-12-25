@@ -24,7 +24,7 @@ const { uploadImages } = require('../tools/fetcher')
 const { ind } = require('./text/lang/')
 const { daily, register, afk, reminder, premium, limit} = require('../function')
 const cd = 4.32e+7
-const limitCount = 30
+const limitCount = 20
 const errorImg = 'https://i.ibb.co/jRCpLfn/user.png'
 const dateNow = moment.tz('Asia/Jakarta').format('DD-MM-YYYY')
 // config openai
