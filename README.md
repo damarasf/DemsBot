@@ -7,7 +7,7 @@ npm install npm@latest -g
 
 1. Clone the repo
 ```sh
-git clone https://github.com/damarasf/wa-openai.git
+git clone https://github.com/damarasf/DemsBot.git
 ```
 2. Install NPM packages
 ```sh
