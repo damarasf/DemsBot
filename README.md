@@ -13,26 +13,16 @@ git clone https://github.com/damarasf/DemsBot.git
 ```sh
 npm install
 ```
-3. Copy .env file
+3. Copy config_example.json file
 ```sh
-cp .env.example .env
+cp config_example.json config.json
 ```
-4. Enter your API keys and your custom prompt in .env file
+4. Enter your API keys and your custom prompt in config.json file
 ```JS
-OPENAI_API_KEY="<your secret key here>"
-
-DEFAULT_PROMPT="<your custom prompt here>"
+"OPENAI_API_KEY": "your api key"
 ```
 * API keys from OpenAI at https://openai.com.
 
-
-## Example Prompts
-
-Prompts should be written in the first person and are used to define your bots personality and ego. ie:
-
-> I am a bot that responds to messages. I am a bit of a joker. I am a bit of a smart
-
-The more detail you offer in your prompt, the better your responses will be.
 
 
 ## Usage
